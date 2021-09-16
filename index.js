@@ -1,8 +1,15 @@
 const { Firestore } = require('@google-cloud/firestore')
+const { Translate } = require('@google-cloud/translate').v2
 
-const store = (data) => {
-  const doc = new Firestore().doc('analysis/sostenes')
-  return doc.set(data)
+const store = async (data) => {
+  const doc = new Firestore().doc('data/texts')
+  await doc.set(data);
+  return (await doc.get()).data()
+}
+
+const translate = async (text) => {
+  const [translation] = await new Translate().translate(text, 'pt')
+  return translation
 }
 
 /**
@@ -12,10 +19,11 @@ const store = (data) => {
  * @param {!express:Response} res HTTP response context.
  */
 exports.producer = async (req, res) => {
-  const status = req.query.status || req.body.status || ''
+  const text = req.query.text || req.body.text || ''
 
   try {
-    const doc = await store({ status });
+    const translation = await translate(text)
+    const doc = await store({ text, translation })
     res.status(200).json(doc)
   } catch (error) {
 
