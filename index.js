@@ -9,10 +9,10 @@ const storeFile = async (file, fileName) => {
     destination: fileName,
   })
 
-  const signedUrl = await uploaded[0].getSignedUrl({
-    expires: Date.now() + 1000 * 60,
-    action: 'read'
-  })
+  // const signedUrl = await uploaded[0].getSignedUrl({
+  //   expires: Date.now() + 1000 * 60,
+  //   action: 'read'
+  // })
 
   return {
     url: uploaded[0].publicUrl(),
