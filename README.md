@@ -1,4 +1,4 @@
-## Create google auth for application
+## Start google default credential
  ```bash
   gcloud auth application-default login
  ````
