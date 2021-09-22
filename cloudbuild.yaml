@@ -1,0 +1,12 @@
+steps:
+# install
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['instlall']
+  dir: '/'
+# test
+#- name: 'gcr.io/cloud-builders/npm'
+# args: ['test']
+# dir: '/'
+- name: 'gcr.io/cloud-builders/gcloud'
+ args: ['functions', 'deploy', 'producer', '--entry-point', 'producer', '--runtime', 'nodejs14', '--trigger-http', '--allow-unauthenticated', '--memory=128MB', '--region=us-central1']
+ dir: '/'
