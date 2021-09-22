@@ -1,7 +1,7 @@
 steps:
   - name: 'gcr.io/cloud-builders/npm'
     args: ['install']
-    dir: '/'
+    dir: 'functions/producer'
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       [
@@ -17,4 +17,4 @@ steps:
         '--memory=128MB',
         '--region=us-central1',
       ]
-    dir: '/'
+    dir: 'functions/producer'
