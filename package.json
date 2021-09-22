@@ -12,5 +12,8 @@
     "@google-cloud/pubsub": "^2.17.0",
     "@google-cloud/storage": "^5.14.2",
     "@google-cloud/translate": "^6.2.7"
+  },
+  "engines": {
+    "node": "12"
   }
 }
