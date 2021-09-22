@@ -49,5 +49,4 @@ exports.producer = async (req, res) => {
 
     res.status(400).send(error.message)
   }
-
 }
