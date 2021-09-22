@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "npx functions-framework --target=producer",
-    "deploy": "gcloud functions deploy producer-function --entry-point producer --runtime nodejs14 --trigger-http --allow-unauthenticated --memory=128MB --region=us-central1"
+    "deploy": "gcloud functions deploy producer-function --entry-point producer --runtime nodejs12 --trigger-http --allow-unauthenticated --memory=128MB --region=us-central1"
   },
   "dependencies": {
     "@google-cloud/firestore": "^4.15.1",
