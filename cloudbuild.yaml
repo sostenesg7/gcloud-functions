@@ -14,5 +14,5 @@ steps:
         '--trigger-http',
         '--allow-unauthenticated',
         '--memory=128MB',
-        # '--region=us-central1',
+        '--region=us-central1',
       ]
