@@ -2,3 +2,4 @@
 node_modules
 gcloud-key.json
 .env
+credentials.json

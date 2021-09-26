@@ -4,19 +4,22 @@ const { Storage } = require('@google-cloud/storage')
 const { BUCKET_NAME } = process.env
 
 const storeFile = async (file, fileName) => {
-  const bucket = new Storage().bucket(BUCKET_NAME)
-  const uploaded = await bucket.upload(file, {
+  const bucket = new Storage({
+    // credentials: require('./credentials.json')
+  }).bucket(BUCKET_NAME)
+
+  const [savedFile] = await bucket.upload(file, {
     destination: fileName,
   })
 
-  // const signedUrl = await uploaded[0].getSignedUrl({
-  //   expires: Date.now() + 1000 * 60,
-  //   action: 'read'
-  // })
+  const [signedUrl] = await savedFile.getSignedUrl({
+    expires: Date.now() + 1000 * 60,
+    action: 'read',
+  })
 
   return {
-    url: uploaded[0].publicUrl(),
-    // signedUrl
+    url: savedFile.publicUrl(),
+    signedUrl
   }
 }
 
@@ -43,7 +46,7 @@ exports.producer = async (req, res) => {
   try {
     const translation = await translate(text)
     const file = await storeFile('./document.txt', 'document.txt')
-    const doc = await store({ text, translation, document: file })
+    const doc = await store({ text, translation, file })
     res.status(200).json(doc)
   } catch (error) {
     res.status(400).send(error.message)
