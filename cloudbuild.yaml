@@ -10,7 +10,7 @@ steps:
         '--entry-point',
         'producer',
         '--runtime',
-        'nodejs16',
+        'nodejs12',
         '--trigger-http',
         '--allow-unauthenticated',
         '--memory=128MB',
