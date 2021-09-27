@@ -3,6 +3,27 @@ const { Translate } = require('@google-cloud/translate').v2
 const { Storage } = require('@google-cloud/storage')
 const { BUCKET_NAME } = process.env
 
+/**
+ * Retrieve an authenticated url with permission to upload a file.
+ * This url should requested from PUT method
+ *
+ * @param {string} fileName
+ * @return {*} 
+ */
+const getUploadUrl = async (fileName) => {
+  const [url] = await new Storage()
+    .bucket(BUCKET_NAME)
+    .file(fileName)
+    .getSignedUrl({
+      expires: Date.now() + 1000 * 60,
+      action: 'write',
+      version: 'v4'
+    })
+
+  return url
+
+}
+
 const storeFile = async (file, fileName) => {
   const bucket = new Storage({
     // credentials: require('./credentials.json')
@@ -10,11 +31,6 @@ const storeFile = async (file, fileName) => {
 
   const [savedFile] = await bucket.upload(file, {
     destination: fileName,
-  })
-
-  const [signedUrl] = await savedFile.getSignedUrl({
-    expires: Date.now() + 1000 * 60,
-    action: 'read',
   })
 
   return {
@@ -45,8 +61,13 @@ exports.producer = async (req, res) => {
 
   try {
     const translation = await translate(text)
-    const file = await storeFile('./document.txt', 'document.txt')
-    const doc = await store({ text, translation, file })
+    // const file = await storeFile('./document.txt', 'document.txt')
+    const uploadUrl = await getUploadUrl(req.body.fileName)
+    const doc = await store({
+      text,
+      translation,
+      uploadUrl
+    })
     res.status(200).json(doc)
   } catch (error) {
     res.status(400).send(error.message)

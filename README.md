@@ -3,5 +3,8 @@
   gcloud auth application-default login
  ````
 
-## Deploy to gcloud functions
-- https://cloud.google.com/sdk/gcloud/reference/functions/deploy
+
+
+## Links
+- Deploy to gcloud functions
+  https://cloud.google.com/sdk/gcloud/reference/functions/deploy
